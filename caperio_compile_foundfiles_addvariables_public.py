@@ -5,14 +5,10 @@
 import pandas as pd
 import numpy as np
 import os
-import sys
 from pandas.errors import EmptyDataError
 import glob
 from functools import reduce
 from datetime import date
-
-# change path to append private module files
-sys.path.append('C:\\Bossa Nova\\Git\\sc\\Python_Caperio')
 from various_functions import find_number
 from subcat_code_cat_code_dict import cat_code_dict
 from sc_Agencias_Subcategories import subcat_to_subcategory
