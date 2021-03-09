@@ -1,8 +1,9 @@
-# RLudwig Updated March 5 2021
 # Python script to get html split urls for each transcription
 import pandas as pd
 import numpy as np
 import os
+from sc_Agencias_Subcategories import subcat_code
+
 
 os.chdir('C:\\Bossa Nova\\audiototext\\sc\\html url')
 
@@ -39,38 +40,27 @@ df = df.merge(afl, on=["basename"], how="right")
 
 os.chdir('C:\\Bossa Nova\\audiototext\\sc\\html url')
 
-subcat_list = ['subcat1', 'subcat2',
-               'subcat3', 'subcat4', 'subcat5', 'subcat6', 'subcat7',
-               'subcat8', 'subcat9', 'subcat10', 'subcat11', 'subcat12',
-               'subcat13', 'subcat14', 'subcat15', 'subcat16', 'subcat17',
-               'subcat18', 'subcat19', 'subcat20', 'subcat21', 'subcat22',
-               'subcat23', 'subcat24', 'subcat25', 'subcat26', 'subcat27',
-               'subcat28', 'subcat29', 'subcat30', 'subcat31', 'subcat32',
-               'subcat33', 'subcat34', 'subcat35', 'subcat36', 'subcat37',
-               'subcat38', 'subcat39', 'subcat40', 'subcat41', 'subcat42',
-               'subcat43', 'subcat44', 'subcat45', 'subcat46', 'subcat47',
-               'subcat48', 'subcat49', 'subcat50', 'subcat51', 'subcat52',
-               'subcat53', 'subcat54', 'subcat55', 'subcat56', 'subcat57',
-               'subcat58', 'subcat59', 'subcat60', 'subcat61', 'subcat62',
-               'subcat63', 'subcat64', 'subcat65', 'subcat66', 'subcat67',
-               'subcat68', 'subcat69', 'subcat70', 'subcat71', 'subcat72',
-               'subcat73', 'subcat74', 'subcat75', 'subcat76', 'subcat77',
-               'subcat78', 'subcat79', 'subcat80']
-
-subcat_df = pd.DataFrame(columns=subcat_list)
+subcat_df = pd.DataFrame(columns=subcat_code)
 
 subcat_df = subcat_df.add_suffix('_url')
 
 df2 = pd.concat([df, subcat_df], axis=1)
 
 n = 1
-while n < 81:
-    nstring = str(n)
-    subcat = 'subcat' + nstring
-    subcaturl = 'subcat' + nstring + '_url'
-    df2[subcaturl] = np.where(df2['subcat_code'] == subcat,
-                              df2['Archivo_html'], df2[subcaturl])
-    n = n + 1
+while n in range(len(subcat_code)):
+
+    try:
+        nstring = str(n)
+        subcat = 'subcat' + nstring
+        subcaturl = 'subcat' + nstring + '_url'
+        df2[subcaturl] = np.where(df2['subcat_code'] == subcat,
+                                  df2['Archivo_html'], df2[subcaturl])
+        n = n + 1
+
+    except(KeyError):
+
+        n = n + 1
+
 
 df2 = df2.drop(['Archivo_html', 'subcat_code'], axis=1)
 
